@@ -6,21 +6,6 @@ using namespace std;
 
 int main()
 {
-	/*
-	long x;
-	int y;
-	cout << "Enter hryvnias: ";
-	cin >> x;
-	cout << "Enter kopieck: ";
-	cin >> y;
-	Money::staticAddition(x, y);
-	Money n;
-	n.Read();
-	n.Division(2, 2);
-	n.Read();
-	n.Addition();
-	n.DBAN();
-	cout << n.toString();*/
 	Money a;
 	a.setH(10);
 	a.setk(50);
