@@ -17,19 +17,18 @@ void Money::Read()
 }
 
 bool Money::Init(long x, int y) {
-	first = x;
-	second = y;
-	if (first < 0 || second < 0) {
-		first = 0;
-		second = 0;
+	hryvnia = x;
+	kopieck = y;
+	if (hryvnia < 0 || kopieck < 0) {
+		hryvnia = 0;
+		kopieck = 0;
 		cout << "Wrong parameters" << endl;
 		return false;
 	}
 	else {
-		if (second >= 100) {
-			int k = second % 10 % 10;
-			first += k;
-			second -= k * 100;
+		while (kopieck >= 100) {
+			hryvnia += 1;
+			kopieck -= 100;
 		}
 		return true;
 	}
@@ -37,118 +36,76 @@ bool Money::Init(long x, int y) {
 
 void Money::Display() const
 {
-	cout << "Money = " << first << "," << second << endl;
+	cout << "Money = " << hryvnia << "," << kopieck << endl;
 }
 
-void Money::Menu()
-{
-	Money n;
-	int m;
-	cout << "Chose action" << endl;
-	cout << "1 - Addition" << endl;
-	cout << "2 - Division" << endl;
-	cout << "3 - Division by a number" << endl;
-	cout << "4 - Exit" << endl;
-	cout << "Enter: ";
-
-	cin >> m;
-	switch (m) {
-	case 1: Addition(); break;
-	case 2: Division(); break;
-	case 3: DBAN(); break;
-	case 4: break;
-	}
+Money Money::Addition(Money a){
+	Money c;
+	c.hryvnia = this->hryvnia + a.hryvnia;
+	c.kopieck = this->kopieck + a.kopieck;
+	cout << "Money = " << c.hryvnia << "," << c.kopieck << endl;
+	return c;
 }
 
-void Money::Addition(){
-	long x;
-	int y;
-	cout << first << "," << second << " +  ?" << endl;
-	cout << "Enter the second hryvnias: ";
-	cin >> x;
-	cout << "Enter the second kopieck: ";
-	cin >> y;
-	first += x;
-	second += y;
-	Display();
-	Menu();
+void Money::Division(long x, int y) {
+
+	hryvnia = hryvnia / x;
+	kopieck = kopieck / x;
+	cout << "Money1 = " << hryvnia << "," << kopieck << endl;
 }
 
-void Money::Division() {
-	long x;
-	int y;
-	cout << first << "," << second << " /  ?" << endl;
-	cout << "Enter the second hryvnias: ";
-	cin >> x;
-	cout << "Enter the second kopieck: ";
-	cin >> y;
-	second = first * 100 + second;
-	first = 0;
-	y = x * 100 + y;
-	second /= y;
-	if (second >= 100) {
-		first += second / 100;
-		second -= first * 100;
-	}
-	else {
-		first += second;
-		second -= first;
-	}
-	Display();
-	Menu();
-}
 void Money::DBAN() {
+	long x;
+	int y;
 	float u;
-	cout << first << "," << second << " /  ?" << endl;
-	cout << "Enter the number: ";
-	cin >> u;
-	second = first * 100 + second;
-	first = 0;
-	second /= u;
-	if (second >= 100) {
-		first += second / 100;
-		second -= first * 100;
+	cout << "Enter the numerator: ";
+	cin >> x;
+	cout << "Enter the denominator: ";
+	cin >> y;
+	u = x / y;
+	kopieck = hryvnia * 100 + kopieck;
+	hryvnia = 0;
+	kopieck /= u;
+	if (kopieck >= 100) {
+		hryvnia += kopieck / 100;
+		kopieck -= hryvnia * 100;
 	}
 	else {
-		first += second;
-		second -= first;
+		hryvnia += kopieck;
+		kopieck -= hryvnia;
 	}
-	Display();
-	Menu();
 }
 
-double friendAddition(long x, int y) {
-	long x1;
-	int y1;
-	cout << x << "," << y << " +  ?" << endl;
-	cout << "Enter the second hryvnias: ";
-	cin >> x1;
-	cout << "Enter the second kopieck: ";
-	cin >> y1;
-	x += x1;
-	y += y1;
-	return 0;
+Money friendAddition(Money a, Money b) {
+	Money c;
+	c.hryvnia = a.hryvnia + b.hryvnia;
+	c.kopieck =	a.kopieck + b.kopieck;
+	while (c.kopieck >= 100)
+	{
+		c.hryvnia += 1;
+		c.kopieck -= 100;
+	}
+	cout << "Money = " << c.hryvnia << "," << c.kopieck << endl;
+	return c;
 }
 
-double Money::staticAddition(long x, int y)
+Money Money::staticAddition(Money a, Money b)
 {
-	long x1;
-	int y1;
-	cout << x << "," << y << " +  ?" << endl;
-	cout << "Enter the second hryvnias: ";
-	cin >> x1;
-	cout << "Enter the second kopieck: ";
-	cin >> y1;
-	x += x1;
-	y += y1;
-	cout << "Money = " << x << "," << y << endl;
-	return 0;
+	Money c;
+	c.hryvnia = a.hryvnia + b.hryvnia;
+	c.kopieck = a.kopieck + b.kopieck;
+	while (c.kopieck >= 100)
+	{
+		c.hryvnia += 1;
+		c.kopieck -= 100;
+	}
+	cout << "Money = " << c.hryvnia << "," << c.kopieck << endl;
+	return c;
 }
 
 string Money::toString()
 {
 	stringstream m; 
-	m << "to string Money = " << first << "," << second << endl; 
+	m << "to string Money = " << hryvnia << "," << kopieck << endl;
 	return m.str(); 
 }
-

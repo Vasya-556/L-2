@@ -7,17 +7,28 @@ using namespace std;
 class Money
 {
 private:
-	long first;
-	unsigned int second;
+	long hryvnia;
+	unsigned int kopieck;
 public:
 	void Display() const;
 	void Read();
+	void setH(long x) { 
+		hryvnia = x;
+	}
+	void setk(int y) {
+		kopieck = y;
+	}
+	double getH() const { 
+		return hryvnia;
+	}
+	double getK() const { 
+		return kopieck; 
+	}
 	bool Init(long x, int y);
-	void Menu();
-	void Addition();
-	void Division();
+	Money Addition(Money a);
+	void Division(long x, int y);
 	void DBAN();
-	friend double friendAddition(long x, int y);
-	static double staticAddition(long x, int y);
+	friend Money friendAddition(Money a, Money b);
+	static Money staticAddition(Money a, Money b);
 	string toString();
 };
